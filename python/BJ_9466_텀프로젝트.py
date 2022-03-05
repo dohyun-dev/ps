@@ -18,4 +18,5 @@ for _ in range(int(input())):
     for i in range(1, n+1):
         if i not in visited:
             visited.add(i)
+            DFS(cur, start)
     print(n)
