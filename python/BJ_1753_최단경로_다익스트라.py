@@ -3,19 +3,21 @@ from collections import defaultdict
 import heapq
 
 def dijkstra(start):
-    dist = [sys.maxsize for i in range(N+1)]
-    q = []
+    dist = [sys.maxsize] * (N + 1)
     dist[start] = 0
-    heapq.heappush(q, (dist[start], start))
+    q = []; heapq.heappush(q, (0, start))
     
     while q:
-        cur_distance, cur_node = heapq.heappop(q)
-        if dist[cur_node] < cur_distance:   continue
-        for next_node, next_distance in graph[cur_node]:
-            if dist[next_node] > cur_distance + next_distance:
-                dist[next_node] = cur_distance + next_distance
-                heapq.heappush(q, (dist[next_node], next_node))
-    return dist
+        cost, cur = heapq.heappop(q)
+        
+        if dist[cur] < cost:
+            continue
+        for next, next_cost in graph[cur]:
+            if dist[next] > cost + next_cost:
+                dist[next] = cost + next_cost
+                heapq.heappush(q, (dist[next], next))
+    
+    return dist[1:]
 
 N, M = map(int, input().split())
 start = int(input())
@@ -24,5 +26,5 @@ graph = defaultdict(list)
 for _ in range(M):
     s, e, c = map(int, input().split())
     graph[s].append((e, c))
-    
-print("\n".join(map(lambda x: "INF" if x == sys.maxsize else str(x), dijkstra(start)[1:])))
+
+print("\n".join(map(lambda x: str(x) if x != sys.maxsize else "INF", dijkstra(start))))
