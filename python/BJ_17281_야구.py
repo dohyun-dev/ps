@@ -20,7 +20,6 @@ def play(team, n):
         elif batting == 2:
             score += b2 + b3
             b1, b2, b3 = 0, 1, b1
-            for i in range(2):  score += base.popleft()
         elif batting == 3:
             score += b1 + b2 + b3
             b1, b2, b3 = 0, 0, 1
