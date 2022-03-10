@@ -1,2 +1,1 @@
-import sys; input = lambda : sys.stdin.readline().rstrip()
-print("\n".join(map(str, sorted([int(input()) for _ in range(int(input()))]))))
+print(*sorted(map(int, [*open(0)][1:])), sep="\n")
