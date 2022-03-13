@@ -50,13 +50,3 @@ for _ in range(M):
 
 DFS(1, 1)
 print(-1 if answer == sys.maxsize else answer)
-
-
-                
-    
-    
-                
-                
-        
-
-
