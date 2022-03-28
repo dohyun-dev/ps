@@ -1,9 +1,8 @@
 def dfs(cur, computers, visited):
     visited[cur] = True
-    for next in computers[cur]:
+    for next in range(len(computers)):
         if not visited[next] and computers[cur][next] == 1:
             dfs(next, computers, visited)
-     
 
 def solution(n, computers):
     answer = 0
@@ -16,4 +15,4 @@ def solution(n, computers):
     
     return answer
 
-print(solution(3, [[1, 0, 0], [1, 1, 0], [0, 1, 0]]))
+print(solution(5, [[1, 0, 0, 0, 0], [0, 1, 0, 0, 1], [0, 0, 1, 0, 1], [0, 0, 0, 1, 1], [1, 0, 0, 0, 1]]))
