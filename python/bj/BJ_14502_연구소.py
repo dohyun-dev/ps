@@ -1,53 +1,47 @@
 from collections import deque
+from copy import deepcopy
 import sys; input = lambda : sys.stdin.readline().rstrip()
 
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
-
 def BFS():
-    q = deque(virus)
-    board2 = [board[i][:] for i in range(N)]
-    while q:
-        x, y = q.popleft()
-         
-        for i in range(4):
-            nx = dx[i] + x
-            ny = dy[i] + y
-            if 0 <= nx < N and 0 <= ny < M and board2[nx][ny] == "0":
-                board2[nx][ny] = "2"
-                q.append((nx, ny))
+    check = [board[i][:] for i in range(N)]
+    q = deque(viruses)
+    answer = 0
     
-    cnt = 0
+    while q:
+        vx, vy = q.popleft()
+        
+        for nx, ny in [(vx-1, vy), (vx, vy+1), (vx+1, vy), (vx, vy-1)]:
+            if 0 <= nx < N and 0 <= ny < M and check[nx][ny] == '0':
+                check[nx][ny] = '2'
+                q.append((nx, ny))
+        
     for i in range(N):
         for j in range(M):
-            if board2[i][j] == "0":  cnt += 1
-    return cnt            
+            if check[i][j] == '0':
+                answer += 1
+    return answer
 
-def DFS(cnt, r, c):
-    global result
+def wall(r, c, cnt = 0):
+    global answer
     if cnt == 3:
-        result = max(result, BFS())
+        answer = max(answer, BFS())
         return
     for i in range(r, N):
-        if i == r:
-            c2 = c
-        else:
-            c2 = 0
-        for j in range(c2, M):
-            if board[i][j] == "0":
-                board[i][j] = "1"
-                DFS(cnt+1, i, j+1)
-                board[i][j] = "0"
-
-if __name__ == "__main__":
-    N, M = map(int, input().split())
-    board = [input().split() for _ in range(N)]
-    result = -sys.maxsize
-
-    virus = []
-    for i in range(N):
-        for j in range(M):
-            if board[i][j] == "2":
-                virus.append((i, j))
-    DFS(0, 0, 0)
-    print(result)
+        if i == r:  c1 = c
+        else:   c1 = 0
+        for j in range(c1, M):
+            if board[i][j] == '0':
+                board[i][j] = '1'
+                wall(i, j + 1, cnt + 1)
+                board[i][j] = '0'
+            
+N, M = map(int, input().split())
+board = [input().split() for _ in range(N)]
+viruses = []
+answer = 0
+for i in range(N):
+    for j in range(M):
+        if board[i][j] == '2':
+            viruses.append((i, j))
+wall(0, 0)
+print(answer)
