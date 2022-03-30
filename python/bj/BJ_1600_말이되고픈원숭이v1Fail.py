@@ -10,7 +10,7 @@ def BFS():
         x, y, c = q.popleft()
         
         if x == H-1 and y == W-1:
-            # 이거땜에 계속 틀림 체크 잘하세요 ㅠㅠㅠㅠㅠ 
+            # 이거땜에 계속 틀림 ㅠ체크 잘하세요 ㅠㅠㅠㅠㅠ 
             return dist[c][x][y]
         
         for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:

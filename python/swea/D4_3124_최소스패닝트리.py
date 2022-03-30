@@ -31,5 +31,3 @@ for t in range(1, int(input()) + 1):
         if union(n1, n2, parent):
             answer += cost
     print(f'#{t} {answer}')
-            
-    
