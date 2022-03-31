@@ -47,19 +47,23 @@ public class BJ_1600_말이되고픈원숭이 {
                 return dist[cur.l][cur.x][cur.y];
             }
 
+            // 사방 탐색
             for(int[] d : dir1) {
                 int nx = cur.x + d[0];
                 int ny = cur.y + d[1];
+                // 같은 레벨 dist가 -1이면 방문하지 않았다는 뜻
                 if(0 <= nx && nx < H && 0 <= ny && ny < W && board[nx][ny] == 0 && dist[cur.l][nx][ny] == -1) {
                     dist[cur.l][nx][ny] = dist[cur.l][cur.x][cur.y] + 1;
                     q.add(new Point(nx, ny, cur.l));
                 }
             }
 
+            // 말
             if (cur.l < K) {
                 for (int[] d : dir2) {
                     int nx = cur.x + d[0];
                     int ny = cur.y + d[1];
+                    // l+1이 이미 방문했다면 똑같은 경로를 다시 탐색하는 것이니까 방문 하지 않음
                     if (0 <= nx && nx < H && 0 <= ny && ny < W && board[nx][ny] == 0 && dist[cur.l+1][nx][ny] == -1) {
                         dist[cur.l+1][nx][ny] = dist[cur.l][cur.x][cur.y] + 1;
                         q.add(new Point(nx, ny, cur.l+1));
