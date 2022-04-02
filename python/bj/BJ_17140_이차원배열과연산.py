@@ -31,7 +31,7 @@ def row_sort():
             cnt += 2
         
         # 나머지 남은 공간을 0으로 채워줌
-        for j in range(cnt, 100):
+        for j in range(cnt, col_size):
             board[i][j] = 0
     # 현재 col_size 갱신
     col_size = max_size
@@ -59,7 +59,7 @@ def col_sort():
             board[cnt][i], board[cnt+1][i] = num, num_cnt
             cnt += 2
         
-        for j in range(cnt, 100):
+        for j in range(cnt, row_size):
             board[j][i] = 0
     row_size = max_size
             
