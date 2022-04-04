@@ -1,0 +1,1 @@
+import re;  print("SUBMARINE" if re.fullmatch("(10[0]+[1]+|01)+", input()) else "NOISE")
