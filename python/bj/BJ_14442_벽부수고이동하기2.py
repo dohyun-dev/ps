@@ -23,5 +23,4 @@ while q:
                 if c + 1 <= K and dist[c+1][nx][ny] == -1:
                     dist[c+1][nx][ny] = dist[c][x][y] + 1
                     q.append((c+1, nx, ny))
-                
 print(-1)
