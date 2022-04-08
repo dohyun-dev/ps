@@ -1,47 +1,37 @@
-from collections import deque
-from copy import deepcopy
+from collections import deque;
 import sys; input = lambda : sys.stdin.readline().rstrip()
 
-def BFS():
-    check = [board[i][:] for i in range(N)]
-    q = deque(viruses)
-    answer = 0
-    
+def spread(board):
+    q = deque([(i, j) for j in range(M) for i in range(N) if board[i][j] == 2])
+    x, y = q[0]
+    board[x][y] = 1
     while q:
-        vx, vy = q.popleft()
-        
-        for nx, ny in [(vx-1, vy), (vx, vy+1), (vx+1, vy), (vx, vy-1)]:
-            if 0 <= nx < N and 0 <= ny < M and check[nx][ny] == '0':
-                check[nx][ny] = '2'
+        x, y = q.popleft()
+        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
+            if 0 <= nx < N and 0 <= ny < M and board[nx][ny] == 0:
+                board[nx][ny] = 1
                 q.append((nx, ny))
-        
-    for i in range(N):
-        for j in range(M):
-            if check[i][j] == '0':
-                answer += 1
-    return answer
+    return sum([1 for j in range(M) for i in range(N) if board[i][j] == 0])
 
-def wall(r, c, cnt = 0):
+def wall(l, r, c):
     global answer
-    if cnt == 3:
-        answer = max(answer, BFS())
+    if l == 3:
+        answer = max(answer, spread([b[:] for b in board]))
         return
-    for i in range(r, N):
-        if i == r:  c1 = c
-        else:   c1 = 0
-        for j in range(c1, M):
-            if board[i][j] == '0':
-                board[i][j] = '1'
-                wall(i, j + 1, cnt + 1)
-                board[i][j] = '0'
-            
+    else:
+        for i in range(r, N):
+            if r == i:
+                c1 = c
+            else:
+                c1 = 0
+            for j in range(c1, M):
+                if board[i][j] == 0:
+                    board[i][j] = 1
+                    wall(l+1, i, j+1)
+                    board[i][j] = 0
+
 N, M = map(int, input().split())
-board = [input().split() for _ in range(N)]
-viruses = []
+board = [list(map(int, input().split())) for _ in range(N)]
 answer = 0
-for i in range(N):
-    for j in range(M):
-        if board[i][j] == '2':
-            viruses.append((i, j))
-wall(0, 0)
+wall(0, 0, 0)
 print(answer)

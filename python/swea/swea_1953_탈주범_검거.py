@@ -1,10 +1,11 @@
-# 북 동 남 서
 from collections import deque
 
 return_list = [0, set([0, 1, 2, 3]), set([0, 2]), set([1, 3]), set([0, 1]), set([1, 2]), set([2, 3]), set([0, 3])]
+
 def move_list(type):
     return return_list[type]
 
+# 북 동 남 서
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 result = []
