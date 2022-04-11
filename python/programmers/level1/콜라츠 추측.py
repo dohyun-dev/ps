@@ -7,7 +7,3 @@ def solution(num):
         else:
             num = num * 3 + 1
     return i - 1 if num == 1 else -1
-
-import math
-print(math.gcd(12, 4))
-print(math.lcm(12, 4))
