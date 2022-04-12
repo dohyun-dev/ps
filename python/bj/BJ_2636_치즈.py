@@ -1,74 +1,54 @@
 from collections import deque
+import sys; input = lambda : sys.stdin.readline().rstrip()
 
-# 접촉면 탐색
-def BFS1():
-    q = deque([(0, 0)])
-    visited = [[0] * M for _ in range(N)]
-    
-    while q:
-        x, y = q.popleft()
-        
-        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
-            if 0 <= nx < N and 0 <= ny < M and board[nx][ny] == 0 and visited[nx][ny] == 0:
-                visited[nx][ny] = 2
-                q.append((nx, ny))
-    
-    return visited
-
-def BFS2(x, y):
-    q = deque([(x, y)])
-    visited[x][y] = 1
-    tmp = []
+def count_cheese(board):
     cnt = 0
-    
-    while q:
-        x, y = q.popleft()
-        flag = False
-        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
-            if 0 <= nx < N and 0 <= ny < M:
-                if board[nx][ny] == 1 and visited[nx][ny] == 0:
-                    visited[nx][ny] = 1
-                    q.append((nx, ny))
-                if visited[nx][ny] == 2:
-                    flag = True
-        if flag:
-            cnt += 1
-            tmp.append((x, y))
-    
-    for tx, ty in tmp:
-        board[tx][ty] = 0
-        
     for i in range(N):
         for j in range(M):
             if board[i][j] == 1:
                 cnt += 1
     return cnt
-                
+
+def bfs1(x, y, board):
+    q = deque([(x, y)])
+    board[x][y] = 2
     
+    while q:
+        x, y = q.popleft()
+        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
+            if 0 <= nx < N and 0 <= ny < M and board[nx][ny] == 0:
+                board[nx][ny] = 2
+                q.append((nx, ny))
+                
+def get_remove_cheese_list(q, board):
+    erase_list = []
+    while q:
+        x, y = q.popleft()
+        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
+            if 0 <= nx < N and 0 <= ny < M and board[nx][ny] == 2:
+                erase_list.append((x, y))
+                break
+    return erase_list
 
 N, M = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
-time = 0
-result = [0]
-
-
+hour, answer = 0, count_cheese(board)
 while True:
-    flag = True
-    visited = BFS1()
-    cnt = 0
+    hour += 1
+    board_temp = [b[:] for b in board]
+    bfs1(0, 0, board_temp)
+    
+    q = deque()
     for i in range(N):
         for j in range(M):
-            if board[i][j] == 1 :
-                flag = False
-                cnt += 1
-                for nx, ny in [(i-1, j), (i, j+1), (i+1, j), (i, j-1)]:
-                    if visited[nx][ny] == 2:
-                        board[i][j] = 0
-                        break
-    if flag:
+            if board[i][j] == 1:
+                q.append((i, j))
+    
+    for x, y in get_remove_cheese_list(q, board_temp):
+        board[x][y] = 0
+    
+    cnt = count_cheese(board)
+    if cnt == 0:
         break
-    result.append(cnt)
-    time += 1
-
-print(time)
-print(result[-1])
+    answer = cnt
+print(hour, answer, sep="\n")

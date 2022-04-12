@@ -14,3 +14,5 @@ def solution2(n):
     for i in range(2, n+1):
         if i in primary_num:
             primary_num -= set(range(i+i, n+1, i))
+    
+    return len(primary_num)
