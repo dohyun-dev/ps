@@ -1,44 +1,41 @@
 from collections import deque
 
 
-R, C = map(int, input().split())
-board = [list(*input().split()) for _ in range(R)]
+def f_bfs(q, board, f_dist):
+    while q:
+        x, y = q.popleft()
+        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
+            if 0 <= nx < N and 0 <= ny < M and board[nx][ny] != '#' and f_dist[nx][ny] == -1:
+                f_dist[nx][ny] = f_dist[x][y] + 1
+                q.append((nx, ny))
 
+def j_bfs(q, board, j_dist, f_dist):
+    while q:
+        x, y = q.popleft()
+        for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
+            if not (0 <= nx < N and 0 <= ny < M):
+                return j_dist[x][y] + 1
+            elif board[nx][ny] != '#' and j_dist[nx][ny] == -1:
+                if f_dist[nx][ny] == -1 or j_dist[x][y] + 1 < f_dist[nx][ny]:
+                    j_dist[nx][ny] = j_dist[x][y] + 1
+                    q.append((nx, ny))
+    return "IMPOSSIBLE"
+
+N, M = map(int, input().split())
+board = [list(input()) for _ in range(N)]
 
 j_q, f_q = deque(), deque()
-dis_j, dis_f = [[-1] * C for _ in range(R)], [[-1] * C for _ in range(R)]
+j_dist = [[-1] * M for _ in range(N)]
+f_dist = [[-1] * M for _ in range(N)]
 
-for i in range(R):
-    for j in range(C):
-        if board[i][j] == "J":
+for i in range(N):
+    for j in range(M):
+        if board[i][j] == 'J':
+            j_dist[i][j] = 0
             j_q.append((i, j))
-            dis_j[i][j] = 0
-        elif board[i][j] == "F":
+        elif board[i][j] == 'F':
+            f_dist[i][j] = 0
             f_q.append((i, j))
-            dis_f[i][j] = 0
 
-while f_q:
-    x, y = f_q.popleft()
-    for dx, dy in [(-1, 0), (0, 1), (1, 0), (0, -1)]:    # 북 동 남 서
-        dx = x + dx
-        dy = y + dy
-        if 0 <= dx < R and 0 <= dy < C and board[dx][dy] == "." and dis_f[dx][dy] == -1:
-            dis_f[dx][dy] = dis_f[x][y] + 1
-            f_q.append((dx,dy))
-
-
-while j_q:
-    x, y = j_q.popleft()
-    for dx, dy in [(-1, 0), (0, 1), (1, 0), (0, -1)]:    # 북 동 남 서
-        dx = x + dx
-        dy = y + dy
-        if 0 <= dx < R and 0 <= dy < C:
-            if board[dx][dy] == "." and dis_j[dx][dy] == -1:
-                if dis_f[dx][dy] == -1 or dis_j[x][y] + 1 < dis_f[dx][dy]:
-                    dis_j[dx][dy] = dis_j[x][y] + 1
-                    j_q.append((dx,dy))
-        else:
-            print(dis_j[x][y] + 1)
-            exit(0)
-
-print("IMPOSSIBLE")
+f_bfs(f_q, board, f_dist)
+print(j_bfs(j_q, board, j_dist, f_dist))
