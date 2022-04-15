@@ -26,4 +26,3 @@ for t in range(1, int(input()) + 1):
     goal_x, goal_y = store[-1]
     result.append(BFS(home_x, home_y))
 print("\n".join(result))
-    
