@@ -4,7 +4,6 @@ import sys; input = lambda : sys.stdin.readline().rstrip()
 def BFS(x, y, board):
     q = deque([(x, y)])
     board[x][y] = 0
-    
     while q:
         x, y = q.popleft()
         for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
