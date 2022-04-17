@@ -17,11 +17,9 @@ def BFS(x, y, board):
 N = int(input())
 board = [list(input()) for _ in range(N)]
 result = []
-
 for i in range(N):
     for j in range(N):
         if board[i][j] == '1':
             result.append(BFS(i, j, board))
-
 print(len(result))
 print("\n".join(sorted(result, key=lambda x: int(x))))
