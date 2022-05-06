@@ -1,6 +1,5 @@
 import sys; input = lambda : sys.stdin.readline().rstrip()
 
-
 def dfs(l=0, s=0, cnt=0):
     global answer
     if l == N:
