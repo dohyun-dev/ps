@@ -7,7 +7,7 @@ def solution(q1, q2):
     total = sum_q1 + sum_q2
     
     while sum_q1 != sum_q2:
-        if answer > (len(q1) + len(q2)) * 100000000:
+        if answer > (len(q1) + len(q2)) * 2:
             return -1
         while q1 and sum_q1 > total // 2:
             if len(q1) == 1 and q[0] > total // 2:
@@ -25,4 +25,4 @@ def solution(q1, q2):
             answer += 1
     return answer
     
-print(solution([1, 1], [1, 5]))
+print(solution([3, 2, 7, 2], [4, 6, 5, 1]))
