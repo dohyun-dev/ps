@@ -4,7 +4,6 @@ def convert_binary(s):
         answer = str(s % 2) + answer
         s //= 2
     return answer
-        
 
 def solution(s):
     answer = [0, 0]
