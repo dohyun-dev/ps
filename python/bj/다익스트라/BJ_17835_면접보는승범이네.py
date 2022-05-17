@@ -2,10 +2,12 @@ import sys; input = lambda : sys.stdin.readline().rstrip()
 from heapq import heappush, heappop
 
 INF = sys.maxsize
-def dijkstra(start):
-    q = [(0, start)]
+def dijkstra():
+    q = []
     dist = [INF] * (N + 1)
-    dist[start] = 0
+    for meeting in meetings:
+        heappush(q, (0, meeting))
+        dist[meeting] = 0
     
     while q:
         cur_cost, cur = heappop(q)
@@ -18,7 +20,12 @@ def dijkstra(start):
             if cost < dist[next]:
                 dist[next] = cost
                 heappush(q, (cost, next))
-    return sorted(dist[meeting] for meeting in meetings)[0]
+    
+    max_i, max_dist = 0, 0
+    for i in range(1, N+1):
+        if max_dist < dist[i]:
+            max_i, max_dist = i, dist[i]
+    return list(map(str, (max_i, max_dist)))
 
 N, M, K = map(int, input().split())
 # 그래프 초기화
@@ -27,8 +34,7 @@ graph = {i: [] for i in range(1, N+1)}
 # 간선 초기화
 for _ in range(M):
     a, b, c = map(int, input().split())
-    graph[a].append((b, c))
+    graph[b].append((a, c))
 meetings = list(map(int, input().split()))
-result = sorted([(dijkstra(i), i) for i in range(1, N+1)], key=lambda x: (-x[0], x[1]))[0]
 
-print(result[1], result[0], sep="\n")
+print("\n".join(dijkstra()))
