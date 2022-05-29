@@ -1,7 +1,6 @@
 import sys; input = lambda : sys.stdin.readline().rstrip()
 from heapq import heappush, heappop
 
-
 def bfs(x=0, y=0):
     q = [(0, x, y)]
     dist = [[-1] * N for _ in range(N)]
@@ -23,4 +22,3 @@ def bfs(x=0, y=0):
 N = int(input())
 board = [list(input()) for _ in range(N)]
 print(bfs())
-
