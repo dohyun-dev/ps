@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="swea">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/python/swea/D4_5604_구간합.py.zip!/" />
+      <root url="jar://$PROJECT_DIR$/python/swea/hwalgo_24_구미_5반_권도현.zip!/" />
+      <root url="jar://$PROJECT_DIR$/python/swea/D3_5607_조합.py.zip!/" />
+      <root url="jar://$PROJECT_DIR$/python/swea/hwalgo22_구미_5반_권도현.zip!/" />
+      <root url="jar://$PROJECT_DIR$/python/swea/hwalgo21_구미_5반_권도현.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
