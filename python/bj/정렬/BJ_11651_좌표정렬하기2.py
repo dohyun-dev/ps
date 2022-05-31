@@ -1,0 +1,2 @@
+import sys; input = lambda : sys.stdin.readline().rstrip()
+print("\n".join([f'{x} {y}' for x, y in sorted([tuple(map(int, input().split())) for _ in range(int(input()))], key= lambda x: (x[1], x[0]))]))
