@@ -1,7 +1,6 @@
 import sys; input = lambda : sys.stdin.readline().rstrip()
 from heapq import heappush, heappop
 
-
 def dijkstra(start, end, have_coin):
     q = [(0, start, have_coin)]
     dist = [INF] * (N + 1)
