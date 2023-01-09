@@ -1,48 +1,42 @@
-k = 0
-arr = []
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
+dx, dy = [-1, 0, 1, 0], [0, 1, 0, -1]
 
-def check(x, y, dir, board):
-    nx, ny = x, y
-    while True:
-        nx = nx + dx[dir]
-        ny = ny + dy[dir]
-        if not(0 <= nx < N and 0 <= ny < N):
-            break
-        if board[nx][ny] in (1, 2):
-            return False
-        board[nx][ny] = 2
-    return True
-
-def solve(board, l=0):
-    global answer
-    if l == 0:
-        board = [b[:] for b in board]
-    if l == k:
-        tmp = sum([b.count(2) for b in board])
-        if tmp < answer:
-            answer = tmp
+def dfs(l=0, cnt=0, connect=0):
+    global answer, max_connect
+    if l == len(cores):
+        if connect > max_connect:
+            answer, max_connect = cnt, connect
+        elif connect == max_connect:
+            answer = min(answer, cnt)
         return
-    else:
-        for i in range(4):
-            if check(cores[l][0], cores[l][1], i, board):
-                arr.append(i)
-                solve(board, l+1)
-                arr.pop()
+    x, y = cores[l]
+    for i in range(4):
+        nx, ny, flag = x, y, False
+        tmp = []
+        while True:
+            nx, ny = nx + dx[i], ny + dy[i]
+            if not (0 <= nx < N) or not (0 <= ny < N):
+                flag = True
+                break
+            if board[nx][ny] == 1 or lines[nx][ny]:
+                break
+            tmp.append((nx, ny))
 
-result = []
+        if flag:
+            for tx, ty in tmp:
+                lines[tx][ty] = True
+
+            dfs(l + 1, cnt + len(tmp), connect+1)
+
+            for tx, ty in tmp:
+                lines[tx][ty] = False
+    dfs(l+1, cnt, connect)
+
 for t in range(1, int(input())+1):
+    answer, max_connect = float("inf"), 0
     N = int(input())
     board = [list(map(int, input().split())) for _ in range(N)]
-    answer = float("inf")
-    cores = []
-    for i in range(1, N-1):
-        for j in range(1, N-1):
-            if board[i][j]: cores.append((i, j))
-    k = len(cores)
-    
-    solve(board)
-    
-    result.append(f'#{t} {answer}')
-print("\n".join(result))
+    cores = [(i, j) for j in range(1, N-1) for i in range(1, N-1) if board[i][j] == 1]
+    lines = [[False] * N for _ in range(N)]
+
+    dfs()
+    print('#{} {}'.format(t, answer))
