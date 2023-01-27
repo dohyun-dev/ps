@@ -7,7 +7,6 @@ for _ in range(int(input())):
             if stack:
                 stack.pop()
             else:
-                print("NO")
                 break
     else:
         if stack:
