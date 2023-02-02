@@ -1,23 +1,22 @@
-from itertools import permutations
+
+def dfs(l, wish_word, total):
+    global answer
+    if wish_word == "":
+        answer = min(answer, total)
+        return
+
+    if l == N:
+        return
+    dfs(l+1, wish_word, total)
+    price, name = int(books[l][0]), books[l][1]
+    tmp = wish_word
+    for i in name:
+        if i in tmp:
+            tmp = wish_word.replace(i, "", 1)
+    dfs(l+1, tmp, total+price)
 
 wish_word, N = input(), int(input())
 books = [input().split() for _ in range(N)]
-answer = []
-
-for p in permutations(books):
-    check, total = wish_word, 0
-    for book in p:
-        price, name, flag = int(book[0]), book[1], False
-        for i in name:
-            if i in check:
-                check = check.replace(i, " ", 1)
-                flag = True
-        if flag:
-            total += price
-
-        if not check:
-            break
-    if total != 0:
-        answer.append(total)
-
-print(min(answer) if answer else -1)
+answer = float("inf")
+dfs(0, wish_word, 0)
+print(-1 if float("inf") == answer else answer)
