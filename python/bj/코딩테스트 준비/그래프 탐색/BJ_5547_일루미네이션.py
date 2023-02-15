@@ -10,8 +10,8 @@ def dfs(x, y):
             if m[nx][ny] == 1:
                 cnt[0] += 1
 
-M, N = m(int, input().split())
-m = [[0] * (M + 2)] + [[0] + [*m(int, input().split())] + [0] for _ in range(N)] + [[0] * (M + 2)]
+M, N = map(int, input().split())
+m = [[0] * (M + 2)] + [[0] + [*map(int, input().split())] + [0] for _ in range(N)] + [[0] * (M + 2)]
 d = {0: [(0, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0)], 1: [(0, 1), (1, 1), (1, 0), (0, -1), (-1, 0), (-1, 1)]}
 cnt, m[0][0] = [0], 2
 dfs(0, 0)
