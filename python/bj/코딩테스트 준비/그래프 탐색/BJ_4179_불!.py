@@ -24,11 +24,10 @@ l = 0
 while j_q:
     for _ in range(len(j_q)):
         x, y = j_q.popleft()
-
         for nx, ny in [(x-1, y), (x, y+1), (x+1, y), (x, y-1)]:
             if 0 <= nx < N and 0 <= ny < M:
-                if board[nx][ny] not in "#J" and (dist[nx][ny] == -1 or l <= dist[nx][ny]):
-                    board[nx][ny] = "J"
+                if board[nx][ny] != "#" and (dist[nx][ny] == -1 or l + 1 < dist[nx][ny]):
+                    board[nx][ny] = "#"
                     j_q.append((nx, ny))
             else:
                 print(l+1)
